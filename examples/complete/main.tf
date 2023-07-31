@@ -22,12 +22,6 @@ data "aws_route53_zone" "this" {
   name = "oss.champtest.net."
 }
 
-data "aws_vpcs" "this" {
-  tags = {
-    purpose = "vega"
-  }
-}
-
 module "acm" {
   source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.111-28fcc7c"
   git               = local.git
