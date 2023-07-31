@@ -51,6 +51,6 @@ resource "null_resource" "this" {
 }
 
 module "this" {
-  source     = "../../"
-  fqdn       = "${local.git}.${data.aws_route53_zone.this.name}"
+  source = "../../"
+  fqdn   = "${local.git}.${data.aws_route53_zone.this.name}"
 }
