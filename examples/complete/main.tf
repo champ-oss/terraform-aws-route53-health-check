@@ -28,30 +28,6 @@ data "aws_vpcs" "this" {
   }
 }
 
-data "aws_subnets" "private" {
-  tags = {
-    purpose = "vega"
-    Type    = "Private"
-  }
-
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpcs.this.ids[0]]
-  }
-}
-
-data "aws_subnets" "public" {
-  tags = {
-    purpose = "vega"
-    Type    = "Public"
-  }
-
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpcs.this.ids[0]]
-  }
-}
-
 module "acm" {
   source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.111-28fcc7c"
   git               = local.git
@@ -83,5 +59,5 @@ resource "null_resource" "this" {
 module "this" {
   source     = "../../"
   fqdn       = "${local.git}.${data.aws_route53_zone.this.name}"
-  depends_on = [null_resource.this]
+  depends_on = [module.cloudfront]
 }
