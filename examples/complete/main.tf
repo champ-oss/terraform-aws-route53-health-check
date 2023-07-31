@@ -44,22 +44,16 @@ module "cloudfront" {
   addresses  = [] # addresses allowed in waf
 }
 
-resource "time_sleep" "this" {
-  create_duration = "60s"
-  depends_on = [
-    module.cloudfront
-  ]
-}
-
 resource "aws_s3_object" "this" {
   bucket     = module.cloudfront.s3_bucket
-  key        = "index.html"
+  key        = "website/index.html"
   source     = "index.html"
-  depends_on = [time_sleep.this]
+  etag       = filemd5("index.html")
+  depends_on = [module.cloudfront]
 }
 
 module "this" {
   source        = "../../"
   fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
-  resource_path = "site"
+  resource_path = "website"
 }
