@@ -25,7 +25,7 @@ variable "failure_threshold" {
 variable "request_interval" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_health_check#request_interval"
   type        = number
-  default     = 60
+  default     = 30
 }
 
 variable "alarm_evaluation_periods" {
@@ -44,12 +44,6 @@ variable "alarms_email" {
   description = "https://registry.terraform.io/providers/-/aws/latest/docs/resources/sns_topic_subscription#endpoint"
   type        = string
   default     = null
-}
-
-variable "cloudwatch_alarm_region" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_health_check#cloudwatch_alarm_region"
-  type        = string
-  default     = "us-east-2"
 }
 
 variable "type" {
