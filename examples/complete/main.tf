@@ -46,7 +46,7 @@ module "cloudfront" {
 
 resource "aws_s3_object" "index" {
   bucket       = module.cloudfront.s3_bucket
-  key          = "website/index.html"
+  key          = "site/index.html"
   source       = "index.html"
   content_type = "text/html"
   etag         = filemd5("index.html")
@@ -55,7 +55,7 @@ resource "aws_s3_object" "index" {
 
 resource "aws_s3_object" "static" {
   bucket       = module.cloudfront.s3_bucket
-  key          = "website/static/index.css"
+  key          = "site/static/index.css"
   source       = "index.css"
   content_type = "text/css"
   etag         = filemd5("index.css")
