@@ -7,5 +7,5 @@ provider "aws" {
 }
 
 module "this" {
-  source             = "../../"
+  source = "../../"
 }
