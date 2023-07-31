@@ -47,9 +47,9 @@ module "cloudfront" {
 resource "aws_s3_object" "index" {
   bucket       = module.cloudfront.s3_bucket
   key          = "site/index.html"
-  source       = "index.html"
+  source       = "mypage"
   content_type = "text/html"
-  etag         = filemd5("index.html")
+  etag         = filemd5("mypage")
   depends_on   = [module.cloudfront]
 }
 
