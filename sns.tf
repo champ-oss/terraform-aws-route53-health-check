@@ -5,6 +5,7 @@ resource "aws_sns_topic" "this" {
 }
 
 resource "aws_sns_topic_subscription" "this" {
+  count     = var.alarms_email != null ? 1 : 0
   provider  = aws.virginia
   topic_arn = aws_sns_topic.this.arn
   protocol  = "email"

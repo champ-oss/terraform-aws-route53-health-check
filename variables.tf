@@ -43,7 +43,7 @@ variable "period" {
 variable "alarms_email" {
   description = "https://registry.terraform.io/providers/-/aws/latest/docs/resources/sns_topic_subscription#endpoint"
   type        = string
-  default     = "alert-champ-aaaakck5hfp2nb5lxljb6atimm@champtitles.slack.com"
+  default     = null
 }
 
 variable "cloudwatch_alarm_region" {
