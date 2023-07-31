@@ -53,5 +53,4 @@ resource "null_resource" "this" {
 module "this" {
   source     = "../../"
   fqdn       = "${local.git}.${data.aws_route53_zone.this.name}"
-  depends_on = [module.cloudfront]
 }
