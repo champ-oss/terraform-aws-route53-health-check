@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 locals {
-  git = "terraform-aws-r53-health-check"
+  git = "tf-r53-health-check"
 }
 
 data "aws_route53_zone" "this" {
@@ -33,7 +33,7 @@ module "acm" {
 
 module "cloudfront" {
   source     = "github.com/champ-oss/terraform-aws-cloudfront.git?ref=v1.0.0-b62c9fa"
-  git        = substr(local.git, 0, 60)
+  git        = local.git
   name       = "cloudfront"
   protect    = false
   tags       = local.tags
