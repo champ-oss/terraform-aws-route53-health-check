@@ -46,10 +46,8 @@ module "cloudfront" {
 
 resource "aws_s3_object" "this" {
   bucket       = module.cloudfront.s3_bucket
-  for_each     = fileset("uploads/", "*")
   key          = "site/index.html"
-  source       = "src/index.html"
-  etag         = filemd5("src/index.html")
+  source       = "index.html"
   content_type = "text/html"
   depends_on = [
     module.cloudfront
@@ -57,6 +55,7 @@ resource "aws_s3_object" "this" {
 }
 
 module "this" {
-  source = "../../"
-  fqdn   = "${local.git}.${data.aws_route53_zone.this.name}"
+  source        = "../../"
+  fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
+  resource_path = "site"
 }
