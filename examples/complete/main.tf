@@ -44,14 +44,18 @@ module "cloudfront" {
   addresses  = [] # addresses allowed in waf
 }
 
-resource "aws_s3_object" "this" {
-  bucket       = module.cloudfront.s3_bucket
-  key          = "site/index.html"
-  source       = "index.html"
-  content_type = "text/html"
+resource "time_sleep" "this" {
+  create_duration = "60s"
   depends_on = [
     module.cloudfront
   ]
+}
+
+resource "aws_s3_object" "this" {
+  bucket     = module.cloudfront.s3_bucket
+  key        = "index.html"
+  source     = "index.html"
+  depends_on = [time_sleep.this]
 }
 
 module "this" {
