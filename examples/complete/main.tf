@@ -46,7 +46,7 @@ module "cloudfront" {
 
 resource "null_resource" "this" {
   provisioner "local-exec" {
-    command = "aws s3 cp src/index.html s3://${module.this.s3_bucket}"
+    command = "aws s3 cp src/index.html s3://${module.cloudfront.s3_bucket}"
   }
 }
 
