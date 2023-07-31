@@ -1,5 +1,5 @@
 resource "aws_route53_health_check" "this" {
-  reference_name    = "${var.git}-health-check-${random_string.identifier.result}"
+  reference_name    = substr("${var.git}-${random_string.identifier.result}", 0, 27) # 27 max length
   fqdn              = var.fqdn
   port              = var.port
   type              = var.type
