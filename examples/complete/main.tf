@@ -44,11 +44,16 @@ module "cloudfront" {
   addresses  = [] # addresses allowed in waf
 }
 
-resource "null_resource" "this" {
-  depends_on = [module.cloudfront]
-  provisioner "local-exec" {
-    command = "aws s3 cp src/index.html s3://${module.cloudfront.s3_bucket}/website/index.html"
-  }
+resource "aws_s3_object" "this" {
+  bucket       = module.cloudfront.s3_bucket
+  for_each     = fileset("uploads/", "*")
+  key          = "site/index.html"
+  source       = "src/index.html"
+  etag         = filemd5("src/index.html")
+  content_type = "text/html"
+  depends_on = [
+    module.cloudfront
+  ]
 }
 
 module "this" {
