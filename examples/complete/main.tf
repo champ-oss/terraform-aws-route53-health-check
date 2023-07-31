@@ -65,5 +65,5 @@ resource "aws_s3_object" "static" {
 module "this" {
   source        = "../../"
   fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
-  resource_path = "/website"
+  resource_path = "/site"
 }
