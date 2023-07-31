@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 	"github.com/gruntwork-io/terratest/modules/logger"
-	"time"
 )
 
 // TestExamplesComplete tests a typical deployment of this module
