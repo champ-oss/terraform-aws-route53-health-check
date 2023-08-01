@@ -46,10 +46,10 @@ module "cloudfront" {
 
 resource "aws_s3_object" "index" {
   bucket       = module.cloudfront.s3_bucket
-  key          = "site"
-  source       = "site"
+  key          = "site/main"
+  source       = "main"
   content_type = "text/html"
-  etag         = filemd5("mypage")
+  etag         = filemd5("main")
   depends_on   = [module.cloudfront]
 }
 
@@ -65,5 +65,5 @@ resource "aws_s3_object" "static" {
 module "this" {
   source        = "../../"
   fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
-  resource_path = "/site"
+  resource_path = "/site/main"
 }
