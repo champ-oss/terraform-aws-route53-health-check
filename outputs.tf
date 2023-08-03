@@ -1,9 +1,9 @@
-output "private_subnet_ids" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group#subnet_ids"
-  value       = var.private_subnet_ids
+output "cloudwatch_metric_arn" {
+  description = "cloudwatch metric arn"
+  value       = aws_cloudwatch_metric_alarm.this.arn
 }
 
-output "vpc_id" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group#vpc_id"
-  value       = var.vpc_id
+output "cloudwatch_metric_alarm_name" {
+  description = "cloudwatch metric alarm name"
+  value       = aws_cloudwatch_metric_alarm.this.alarm_name
 }

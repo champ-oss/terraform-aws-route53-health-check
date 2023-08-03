@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../site/static/index.css">
+</head>
+
+<head>
+    <title>hello world example</title>
+</head>
+<body>
+    <p>This is an example of a simple HTML page with one paragraph.</p>
+</body>
+</html>
