@@ -1,5 +1,4 @@
 resource "aws_sns_topic" "this" {
-  provider = aws.virginia
   name     = "${var.git}-r53-health-check-${random_string.identifier.result}"
   tags     = merge(local.tags, var.tags)
 }
