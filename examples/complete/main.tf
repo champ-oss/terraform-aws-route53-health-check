@@ -14,6 +14,11 @@ provider "aws" {
   region = "us-east-2"
 }
 
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
+}
+
 locals {
   git = "tf-r53-health-check"
 }
@@ -63,7 +68,11 @@ resource "aws_s3_object" "static" {
 }
 
 module "this" {
-  source        = "../../"
+  count  = var.enable_route53_health_check ? 1 : 0
+  source = "../../"
+  providers = {
+    aws = aws.virginia
+  }
   fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
   resource_path = "/site/main"
 }
