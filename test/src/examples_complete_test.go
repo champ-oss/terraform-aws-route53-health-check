@@ -4,7 +4,6 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"os"
 	"testing"
-	"github.com/gruntwork-io/terratest/modules/logger"
 )
 
 // TestExamplesComplete tests a typical deployment of this module
@@ -20,7 +19,6 @@ func TestExamplesComplete(t *testing.T) {
 		EnvVars: map[string]string{},
 		Vars:    map[string]interface{}{},
 	}
+	defer terraform.Destroy(t, terraformOptions)
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
-	logger.Log(t, "Creating AWS Session")
-
 }
