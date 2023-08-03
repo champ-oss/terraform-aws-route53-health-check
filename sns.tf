@@ -1,6 +1,6 @@
 resource "aws_sns_topic" "this" {
-  name     = "${var.git}-r53-health-check-${random_string.identifier.result}"
-  tags     = merge(local.tags, var.tags)
+  name = "${var.git}-r53-health-check-${random_string.identifier.result}"
+  tags = merge(local.tags, var.tags)
 }
 
 resource "aws_sns_topic_subscription" "this" {
