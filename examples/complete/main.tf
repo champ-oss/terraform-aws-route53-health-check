@@ -68,7 +68,6 @@ resource "aws_s3_object" "static" {
 }
 
 module "this" {
-  count         = var.enable_route53_health_check ? 1 : 0
   source        = "../../"
   providers = {
     aws = aws.virginia
