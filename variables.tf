@@ -40,7 +40,7 @@ variable "period" {
   default     = 60
 }
 
-variable "webhook_url" {
+variable "alarms_email" {
   description = "https://registry.terraform.io/providers/-/aws/latest/docs/resources/sns_topic_subscription#endpoint"
   type        = string
   default     = null

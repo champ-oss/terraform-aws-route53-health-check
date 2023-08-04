@@ -4,9 +4,8 @@ resource "aws_sns_topic" "this" {
 }
 
 resource "aws_sns_topic_subscription" "this" {
-  count                  = var.webhook_url != null ? 1 : 0
-  topic_arn              = aws_sns_topic.this.arn
-  protocol               = "https"
-  endpoint               = var.webhook_url
-  endpoint_auto_confirms = true
+  count     = var.alarms_email != null ? 1 : 0
+  topic_arn = aws_sns_topic.this.arn
+  protocol  = "email"
+  endpoint  = var.alarms_email
 }
