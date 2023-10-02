@@ -76,3 +76,9 @@ module "this" {
   fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
   resource_path = "/site/main"
 }
+
+variable "enable_route53_health_check" {
+  description = "enable r53 health check"
+  type        = bool
+  default     = true
+}
