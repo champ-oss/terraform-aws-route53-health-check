@@ -1,3 +1,5 @@
 set -e
 
-# add intigration test to test health check
+sleep 30
+
+aws route53 get-health-check-status --health-check-id $R53_HEALTH_CHECK_ID | jq -e '.HealthCheckObservations[] | select(.StatusReport.Status)' | grep Success

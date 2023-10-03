@@ -78,3 +78,9 @@ variable "enable_route53_health_check" {
   type        = bool
   default     = true
 }
+
+output "r53_health_check_id" {
+  description = "log group name for alert module function"
+  value       = module.this.r53_health_check_id
+}
+
