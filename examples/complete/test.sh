@@ -1,8 +1,6 @@
-
-command=$(aws route53 get-health-check-status --health-check-id $ROUTE53_HEALTH_CHECK_ID | jq -e '.HealthCheckObservations[] | select(.StatusReport.Status)')
-
 for i in {1..20}
 do
+   command=$(aws route53 get-health-check-status --health-check-id $ROUTE53_HEALTH_CHECK_ID | jq -e '.HealthCheckObservations[] | select(.StatusReport.Status)')
    if echo "$command" | grep -q "Success"
    then
      echo "substring found"
