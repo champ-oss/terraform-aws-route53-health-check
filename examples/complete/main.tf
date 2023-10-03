@@ -1,7 +1,3 @@
-terraform {
-  backend "s3" {}
-}
-
 locals {
   tags = {
     git     = "terraform-aws-route53-health-check"
