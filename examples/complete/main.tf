@@ -64,19 +64,12 @@ resource "aws_s3_object" "static" {
 }
 
 module "this" {
-  count  = var.enable_route53_health_check ? 1 : 0
   source = "../../"
   providers = {
     aws = aws.virginia
   }
   fqdn          = "${local.git}.${data.aws_route53_zone.this.name}"
   resource_path = "/site/main"
-}
-
-variable "enable_route53_health_check" {
-  description = "enable r53 health check"
-  type        = bool
-  default     = true
 }
 
 output "route53_health_check_id" {
