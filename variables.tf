@@ -1,8 +1,3 @@
-variable "git" {
-  description = "Name of the Git repo"
-  type        = string
-  default     = "terraform-aws-route53-health-check"
-}
 
 variable "tags" {
   description = "Tags to assign to resources"
@@ -26,24 +21,6 @@ variable "request_interval" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_health_check#request_interval"
   type        = number
   default     = 30
-}
-
-variable "alarm_evaluation_periods" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm#evaluation_periods"
-  type        = number
-  default     = 1
-}
-
-variable "period" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm#period"
-  type        = number
-  default     = 60
-}
-
-variable "alarms_email" {
-  description = "https://registry.terraform.io/providers/-/aws/latest/docs/resources/sns_topic_subscription#endpoint"
-  type        = string
-  default     = null
 }
 
 variable "type" {
