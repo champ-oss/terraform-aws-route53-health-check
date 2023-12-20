@@ -24,7 +24,7 @@ module "acm" {
 }
 
 module "cloudfront" {
-  source     = "github.com/champ-oss/terraform-aws-cloudfront.git?ref=v1.0.0-b62c9fa"
+  source     = "github.com/champ-oss/terraform-aws-cloudfront.git?ref=v1.0.4-3f20396"
   git        = local.git
   name       = "cloudfront"
   protect    = false
