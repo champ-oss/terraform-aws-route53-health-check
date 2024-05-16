@@ -9,11 +9,10 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.ACTION_TOKEN }}
-
-      - uses: champ-oss/file-sync@v1.0.67-f20efd0
+      - uses: champ-oss/file-sync@main
         with:
           token: ${{ secrets.ACTION_TOKEN }}
           repo: champ-oss/terraform-module-template
@@ -28,4 +27,6 @@ jobs:
             .github/workflows/release.yml
             .github/workflows/sonar.yml
             .github/workflows/sync.yml
-            .github/workflows/combine-prs.yml
+            .github/workflows/doc.yml
+          delete-files: |
+            .github/workflows/update-lockfile.yml
