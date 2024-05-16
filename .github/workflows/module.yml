@@ -20,11 +20,14 @@ env:
   MONGODB_ATLAS_PRIVATE_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
   MONGODB_ATLAS_PUBLIC_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
   MONGODB_ATLAS_ORG: ${{ secrets.MONGODB_ATLAS_ORG }}
+  TF_VAR_mongodb_atlas_org: ${{ secrets.MONGODB_ATLAS_ORG }}
   SLACK_URL: ${{ secrets.SLACK_URL }}
   TF_VAR_slack_url: ${{ secrets.SLACK_URL }}
   NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
   NEW_RELIC_REGION: ${{ secrets.NEW_RELIC_REGION }}
   NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+  GITHUB_TOKEN: ${{ secrets.CHAMP_TESTING_GITHUB_TOKEN }}
+  GITHUB_OWNER: "champ-testing"
 
 jobs:
   list-examples:
@@ -62,14 +65,17 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
-      - uses: hashicorp/setup-terraform@v3.1.1 # https://github.com/hashicorp/setup-terraform/releases
+      - uses: hashicorp/setup-terraform@v3 # https://github.com/hashicorp/setup-terraform/releases
         with:
-          terraform_version: 1.5.5 # https://github.com/hashicorp/terraform/releases
+          terraform_version: 1.6.2 # https://github.com/hashicorp/terraform/releases
           terraform_wrapper: false
       - name: copy lockfile
         run: cp ../complete/.terraform.lock.hcl . || true
       - name: init
         run: terraform init
+      - name: disable prevent_destroy
+        working-directory: .
+        run: find . -type f -name '*.tf' -exec sed -i'' -e 's/prevent_destroy = true/prevent_destroy = false/g' {} +
       - name: validate
         run: terraform validate
       - name: plan
@@ -90,32 +96,13 @@ jobs:
       - name: destroy
         if: always()
         run: terraform destroy -auto-approve
-  check-examples:
-    needs: run-example
-    runs-on: ubuntu-latest
-    if: success()
-    steps:
-      - id: setoutput
-        working-directory: .
-        run: echo "SUCCESS=true" >> $GITHUB_OUTPUT
-    outputs:
-      SUCCESS: ${{ steps.setoutput.outputs.SUCCESS }}
   module:
+    if: ${{ always() }}
     runs-on: ubuntu-latest
-    if: always()
-    needs: [ run-example, check-examples ]
+    needs: [run-example]
     steps:
-      - name: module
-        working-directory: .
-        run: |
-          passed="${{ needs.check-examples.outputs.SUCCESS }}"
-          if [[ $passed == "true" ]]; then
-            echo "tests passed"
-            exit 0
-          else
-            echo "tests failed"
-            exit 1
-          fi
+      - run: exit 1
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
   github-issue-notification:
     needs: [ module ]
     if: failure() && github.ref_name == 'main'
@@ -129,7 +116,7 @@ jobs:
           echo "GITHUB_WORKFLOW_NAME=$(echo ${GITHUB_WORKFLOW} | sed -e 's|.*/||')" >> $GITHUB_ENV
           echo "GITHUB_REF_NAME=$(echo ${GITHUB_REF_NAME})" >> $GITHUB_ENV
       - name: github-issue-notification
-        uses: champ-oss/action-github-issue-notification@v1.0.1-1ca0cac
+        uses: champ-oss/action-github-issue-notification@main
         with:
           GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
           GITHUB_ORG: champ-oss
